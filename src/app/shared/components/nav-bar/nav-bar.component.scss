@@ -1,0 +1,37 @@
+
+.header{
+    font-size:1.4rem;
+    height: 4.2rem; 
+    background:linear-gradient(240deg, rgb(54, 74, 130), rgb(54, 80, 110)) no-repeat; 
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between; // all childs to the left
+    align-items: center; 
+        &--item {
+            padding: 0 0.5rem;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            
+                &__lives {
+                    padding: 0 0.5rem;
+                    height:3rem;
+                    color: white;
+                    display: flex;
+                    align-items: center; 
+            }
+        }
+        
+        .input-s{
+            height:2.5rem;
+            align-self:center;
+        }
+}
+
+.live-up{
+    color:#FF0000;
+}
+
+.live-down{
+    color:white;
+}

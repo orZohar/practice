@@ -1,0 +1,16 @@
+<div *ngIf="(questions$ | async | keyvalue) as questions">
+    <div *ngFor="let question of questions; let i = index; trackBy: trackByQuestionsFunction">
+
+        <div *ngIf="currIndex === i" [@fadeInOut]>
+
+            <h2 class="question">Q:{{currentQuestion}} {{ question.value.question | unescape }}</h2>
+        
+            <div class="posts_container">
+                <fieldset class="posts_container--item" *ngFor="let answer of answersArray[currIndex]"
+                    (click)="updateAnswer(answer === question.value.correct_answer)">
+                    {{ answer | unescape }}
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    

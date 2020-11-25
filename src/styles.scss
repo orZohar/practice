@@ -1,0 +1,25 @@
+*,
+*::after,
+*::before { 
+    margin: 0;
+    padding: 0; 
+    box-sizing: inherit;
+}
+
+
+html{
+    height: 100vh;
+    font-size: 62.5%; /* if we put 100% the default browser font size is 16px. 1rem = 10px*/  
+}
+
+  body{
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+
+  .page-container{ 
+    max-width: 100vw; // max so it will be able to decrease if not enough space 
+    background-color: #1f1f1f;
+    box-shadow: var(--shadow-dark);
+    min-height: 100vh;
+}
