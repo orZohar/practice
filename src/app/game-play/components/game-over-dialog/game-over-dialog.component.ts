@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -28,6 +28,12 @@ import { GamePlayService } from '../../services/game-play.service';
 })
 
 export class GameOverDialogComponent implements OnInit {
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    this.ref.close();
+    this.router.navigate(['/']);
+
+  }
   playerName: NgModel;
   correctAnswers : number;
 

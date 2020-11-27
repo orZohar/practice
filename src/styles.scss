@@ -8,13 +8,14 @@
 
 
 html{
-    height: 100vh;
-    font-size: 62.5%; /* if we put 100% the default browser font size is 16px. 1rem = 10px*/  
+    //height: 100vh;
+    font-size: 62.5%; /* if we put 100% the default browser font size is 16px. 1rem = 10px*/
 }
 
   body{
     font-size: 1.4rem;
     font-weight: 400;
+    font-family: 'Lato', sans-serif;
   }
 
   .page-container{ 
@@ -22,4 +23,31 @@ html{
     background-color: #1f1f1f;
     box-shadow: var(--shadow-dark);
     min-height: 100vh;
+}
+
+.reg-btn{
+  display:inline-block;
+  border:0.1em solid #000000;
+  padding:0.7rem 1.5rem;
+  margin:1rem 1rem;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color:#000000;
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  background-color:#FFFFFF;
+  text-align:center;
+  transition: all 0.15s;
+  border-color:#FFFFFF; 
+  color:#FFFFFF;
+  background-color:rgba(0,0,0,0); 
+  cursor: pointer;
+
+  .reg-btn:hover{
+      text-shadow: 0 0 2em rgba(255,255,255,1);
+      color:#FFFFFF;
+      border-color:#FFFFFF;
+  }
 }

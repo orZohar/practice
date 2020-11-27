@@ -25,6 +25,7 @@ export class NavBarComponent implements OnInit {
   correctAnswers$: Observable<number> = this.store$.pipe(
     select('game', 'correctAnswers')
   )
+  
   questions$: Observable<GameQuestion[]> = this.store$.pipe(
     select('game', 'questions')
   )

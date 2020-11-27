@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { GameQuestion } from 'src/app/shared/models/game-question.model';
-import { setCorrectAnswers, setCurrentQuestion, setLives, setQuestions } from '../actions/game.actions';
+import { setCorrectAnswers, setCurrentQuestion, setInitData, setLives, setQuestions } from '../actions/game.actions';
 
 export interface State {
   questions: GameQuestion[];
@@ -42,6 +42,17 @@ const gameReducer = createReducer(
       currentQuestion: action.currentQuestion
     }
   }),
+  on(setInitData, (state: State, action: any) => {
+    return {
+      ...state,
+      lives: initialState.lives,
+      correctAnswers: initialState.correctAnswers,
+      currentQuestion: initialState.currentQuestion,
+    }
+  }),
+
+
+
 );
 
 export function reducer(state: State | undefined, action: Action) {

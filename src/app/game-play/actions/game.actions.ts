@@ -19,3 +19,8 @@ export const setCurrentQuestion = createAction(
   '[CurrentQuestion] Question number',
   props<{currentQuestion: number}>()
 );
+
+export const setInitData = createAction(
+  '[CurrentQuestion] Reset data',
+);
+

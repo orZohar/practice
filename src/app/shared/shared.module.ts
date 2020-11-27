@@ -7,13 +7,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UnescapePipe } from './pipes/unescape.pipe';
 import { DialogModule} from 'primeng/dialog';
 import { DynamicDialogModule} from 'primeng/dynamicdialog';
+import { FormatTimePipe } from './pipes/format-time.pipe';
 
 @NgModule({
-  declarations: [NavBarComponent, UnescapePipe],
+  declarations: [NavBarComponent, UnescapePipe, FormatTimePipe],
   imports: [
     CommonModule,
-    // DialogModule,
-    // DynamicDialogModule,
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
@@ -26,9 +25,9 @@ import { DynamicDialogModule} from 'primeng/dynamicdialog';
     ReactiveFormsModule,
     FontAwesomeModule,
     UnescapePipe,
+    FormatTimePipe,
     DialogModule,
     DynamicDialogModule,
   ],
-  // providers: []
 })
 export class SharedModule { }

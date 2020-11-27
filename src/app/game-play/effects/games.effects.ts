@@ -21,9 +21,16 @@ export class GameEffects implements OnInitEffects {
 
   @Effect()
   initQuestions$: Observable<Action> = this.actions$.pipe(
-
     ofType('[GameEffects] INIT'),
     mergeMap((action) => this.gamePlayService.getQuestions()),
     map((data) => setQuestions(data as any))
   )
+
+
+
+
+
+
+  
+  
 }

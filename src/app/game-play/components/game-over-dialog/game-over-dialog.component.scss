@@ -11,8 +11,7 @@
     justify-content: center;
 
     .game-over{
-        align-self: flex-end;
-        
+        align-self: flex-end;  
     }
 }
 
@@ -25,11 +24,11 @@
     text-align: center; 
     min-height: 400px;  
     align-items: center; 
+    color:white;
 } 
 
 .footer { 
     display: flex; 
-    align-items: flex-end; 
     justify-content: center; 
     flex-direction: column; 
     width: 100%; 
@@ -37,8 +36,6 @@
     // min-height: 400px;  
     align-items: center; 
 } 
-
-
 
 .gameover {width:750px;
     height: auto;
@@ -52,4 +49,4 @@
     line-height: 120px;
     text-align: center;
     text-shadow: 5px 5px #000000;
-    color: blue;}
+    color:rgb(196, 207, 40);}

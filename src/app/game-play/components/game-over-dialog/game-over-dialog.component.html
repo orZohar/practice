@@ -1,16 +1,17 @@
 <div class="container">
     <div class="gameover">
-        <p> GAME </p>
-        <p> OVER </p>
-        </div>
+        <p> GAME OVER </p>
+        
+    </div>
 </div>
 
 <div class="game-results">
-    <h1>YOU ANSWERED CORRECTLY ON:</h1>
-    <h2>12 OUT OF 12 QUESTIONS</h2>
+    <h1 style="font-size:3rem">YOU ANSWERED CORRECTLY ON:</h1>
+    <h1 style="font-size:5rem">{{correctAnswers}} OUT OF 12 QUESTIONS</h1>
 </div>
 
 <div class="footer">
-    Enter Your Name
-    <input type="text" name="playerName" [(ngModel)]="playerName"><button (click)="addToLeaderBoard()">save</button>
-</div> 
+    <h1 style="color: white;">Enter Your Name</h1>
+    <input type="text" name="playerName" [(ngModel)]="playerName">
+    <button class="reg-btn" (click)="addToLeaderBoard()">Save</button>
+</div>

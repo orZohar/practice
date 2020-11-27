@@ -1,16 +1,24 @@
 <div *ngIf="(questions$ | async | keyvalue) as questions">
-    <div *ngFor="let question of questions; let i = index; trackBy: trackByQuestionsFunction">
+    <div *ngFor="let question of questions; let i = index; trackBy: trackbyService.trackByIndex">
 
         <div *ngIf="currIndex === i" [@fadeInOut]>
 
-            <h2 class="question">Q:{{currentQuestion}} {{ question.value.question | unescape }}</h2>
-        
-            <div class="posts_container">
-                <fieldset class="posts_container--item" *ngFor="let answer of answersArray[currIndex]"
+            <div class="question-container">
+                <h2 class="question">Q:{{currentQuestion}} {{ question.value.question | unescape }}</h2>
+                <question-timer *ngIf="gameIsRunning" (timeIsUp)="updateAnswer(false)"></question-timer>
+                <!-- <h3 style="color:white">{{timeIsUpMessage}}</h3> -->
+            </div>
+
+            <div class="answers_container">
+                <fieldset class="answers_container--item" *ngFor="let answer of answersArray[currIndex]"
                     (click)="updateAnswer(answer === question.value.correct_answer)">
-                    {{ answer | unescape }}
+                    <div class="answers_container--item-answer">
+                        {{ answer | unescape }}
+                    </div>
                 </fieldset>
+            </div>
+            <div class="btn-container">
+                <a class="btn"  (click)="updateAnswer(false)">Skip question</a>
             </div>
         </div>
     </div>
-    
