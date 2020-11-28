@@ -9,6 +9,6 @@
         *ngFor="let leader of leaderBoard; let i = index; trackBy: trackbyService.trackByIndex" [ngStyle]="{'color' : i < 3 ? 'rgb(224, 224, 154)' : 'white'}">
             <span>{{i+1}}.<span style="padding:0 0.2rem 0 0.2rem;"></span>{{leader.name}}</span>
             <span class="dots"></span>
-            <span>{{leader.score}}</span>
+            <span>{{leader.score * 100}}</span>
     </div>
 </div>

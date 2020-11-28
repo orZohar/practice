@@ -6,87 +6,97 @@
     width: 70%;   
     margin: auto;
     
+    @media screen and (max-width: 1300px) {
+        top:10rem;
+     }
+    
     &--item {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         flex: 1 1 40%; /* <-- adjusting for margin */
         max-width:50%;
-        font-size:2rem; 
+        font-size:3rem; 
         margin:1.5rem;
         padding: 1rem 0.5rem;
         cursor: pointer;
         background-color: black;
         position: relative;
         color:white;
-        @media screen and (max-width: 800px) {
-           max-width:85%; // tell item to take all the space
+        @media screen and (max-width: 1100px) {
+            max-width:85%; // tell item to take all the space
+            flex-basis: 85%;
+            font-size:2rem;
+            height:120%;
         }
             &:hover{ 
-                //background-image: linear-gradient(to left, #271616,rgb(48, 5, 5));
-                border-color: rgb(87, 141, 85)  
+                opacity: 0.8;
             }
+
+            &--icon{
+               position: absolute;       
+            }           
     }
-               
+}
+
+.add-green-border{
+    border: 0.4rem solid rgb(64, 202, 59);
+}
+
+.add-red-border{
+    border: 0.5rem solid red;
 }
 
 fieldset{
     word-wrap: break-word;
     overflow: hidden;
     padding:2rem;
-    height:16rem;
+    height:10rem;
     border-width: 1.5px;
     border-color: rgb(207, 207, 209);
     box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
     border-radius: 2.5rem;
 }
 
-
 .question-container{
     display:flex;
     justify-content: flex-end;
-    width: 70%;   
+    width: 68.5%;   
     position: relative;
     top:15rem;
     margin: auto;
         .question{ 
-            //text-align: center;
+            font-weight: bold;
             color: white;
             margin-right: auto;
+            word-wrap: break-word;
+            overflow: hidden;
         }
+
+        @media screen and (max-width: 1300px) {
+            top:8rem;
+         }
+        
+}
+
+.question-timer{
+    width:8%;
+    margin-left:1.5rem;
 }
 
 .btn-container {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start;
     position: relative;
-    top:24rem;
+    top:26rem;
 
-
+    @media screen and (max-width: 1300px) {
+        top:14rem;
+     }
 }
-// a.btn{
-//     display:inline-block;
-//     padding:0.3em 1.2em;
-//     margin:0 0.3em 0.3em 0;
-//     border-radius:2em;
-//     box-sizing: border-box;
-//     text-decoration:none;
-//     font-family:'Roboto',sans-serif;
-//     font-weight:300;
-//     text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-//     color:#FFFFFF;
-//     background-color:#4eb5f1;
-//     text-align:center;
-//     transition: all 0.2s;
-//     cursor: pointer;
-// }
-// a.btn:hover{
-//     background-color:#4095c6;
-//     border-color: rgb(207, 18, 18);
-
-//     }
-    a.btn{
+.btn{
         display:inline-block;
         border:0.1em solid #000000;
         padding:0.46em 1.6em;
@@ -102,14 +112,13 @@ fieldset{
         text-align:center;
         transition: all 0.15s;
         background-color:#42cc8c;
-    }
-
-    a.btn:hover{
-    text-shadow: 0 0 2em rgba(255,255,255,1);
-    border-color:#FFFFFF;
-    color:#FFFFFF;
 }
 
+    .btn:hover{
+        text-shadow: 0 0 2em rgba(255,255,255,1);
+        border-color:#FFFFFF;
+        color:#FFFFFF;
+}
 
 #check {
     fill: none;
@@ -125,4 +134,15 @@ fieldset{
     to {
       stroke-dashoffset: 0;
     }
+  }
+
+  .prepare-msg{
+    position: absolute;
+    color: white; font-weight: 700;
+    left:1.6rem;
+    top:31rem;
+
+    @media screen and (max-width: 1100px) {
+        top:61rem;
+     }
   }

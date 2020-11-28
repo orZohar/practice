@@ -1,24 +1,36 @@
 <div *ngIf="(questions$ | async | keyvalue) as questions">
-    <div *ngFor="let question of questions; let i = index; trackBy: trackbyService.trackByIndex">
+    <div *ngIf="gameIsRunning">
+        <div *ngFor="let question of questions; let i = index; trackBy: trackbyService.trackByIndex">
 
-        <div *ngIf="currIndex === i" [@fadeInOut]>
+            <div *ngIf="currIndex === i" [@fadeInOut] >
 
-            <div class="question-container">
-                <h2 class="question">Q:{{currentQuestion}} {{ question.value.question | unescape }}</h2>
-                <question-timer *ngIf="gameIsRunning" (timeIsUp)="updateAnswer(false)"></question-timer>
-                <!-- <h3 style="color:white">{{timeIsUpMessage}}</h3> -->
-            </div>
+                <div class="question-container">
+                    <h1 class="question">Q:{{currentQuestion}} &nbsp; {{ question.value.question | unescape }}</h1>
+                    <question-timer class="question-timer" [hidden]="startQuestionCheckingProcess" (timeIsUp)="updateAnswer(false, true)"></question-timer>
+                </div>
 
-            <div class="answers_container">
-                <fieldset class="answers_container--item" *ngFor="let answer of answersArray[currIndex]"
-                    (click)="updateAnswer(answer === question.value.correct_answer)">
+                <div class="answers_container">
+
+                    <fieldset class="answers_container--item" *ngFor="let answer of answersMatrix[currIndex]; let i = index"
+                    [disabled]="startQuestionCheckingProcess" (click)="updateAnswer(answer === question.value.correct_answer)"
+                    [ngStyle]="{'cursor' : startQuestionCheckingProcess ? 'auto' : 'pointer'}"
+                    [ngClass]="addAnswerBorder(answer === question.value.correct_answer)">
+                    
                     <div class="answers_container--item-answer">
-                        {{ answer | unescape }}
-                    </div>
-                </fieldset>
-            </div>
-            <div class="btn-container">
-                <a class="btn"  (click)="updateAnswer(false)">Skip question</a>
+                         {{ answer | unescape }}</div>
+                    </fieldset>
+
+                    <h2 class="prepare-msg">{{prepareNextQuestionMsg}}</h2>
+
+                </div>
+
+                <div class="btn-container">
+                    <button class="btn" [disabled]="startQuestionCheckingProcess" (click)="updateAnswer(false, null, true)"
+                    [ngStyle]="{'cursor' : startQuestionCheckingProcess ? 'auto' : 'pointer'}">Skip question</button>
+                </div>
+
             </div>
         </div>
     </div>
+                    <!-- <fa-icon *ngIf="userIsCorrect && startQuestionCheckingProcess && (answer === question.value.correct_answer)"
+                          class="checkmark fa-lg" [icon]="faCheckCircle"></fa-icon> -->

@@ -10,7 +10,7 @@ import {reducer} from './reducers/game.reducers';
 import { SharedModule } from '../shared/shared.module';
 import { GameOverDialogComponent } from './components/game-over-dialog/game-over-dialog.component';
 import { DialogService } from 'primeng/dynamicdialog';
-import { QuestionTimerComponent} from './components/question-countdown/question-timer.component';
+import { QuestionTimerComponent} from './components/question-timer/question-timer.component';
 
 @NgModule({
   declarations: [GameDashboardComponent, GameQuestionComponent, GameOverDialogComponent, QuestionTimerComponent],

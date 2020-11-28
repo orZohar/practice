@@ -8,7 +8,6 @@
 
 
 html{
-    //height: 100vh;
     font-size: 62.5%; /* if we put 100% the default browser font size is 16px. 1rem = 10px*/
 }
 
@@ -45,9 +44,8 @@ html{
   background-color:rgba(0,0,0,0); 
   cursor: pointer;
 
-  .reg-btn:hover{
+  &:hover{
       text-shadow: 0 0 2em rgba(255,255,255,1);
-      color:#FFFFFF;
-      border-color:#FFFFFF;
+      opacity: 0.8;
   }
 }

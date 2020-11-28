@@ -1,57 +1,93 @@
-import { trigger, transition, style, animate } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { Observable, Subject, timer } from 'rxjs';
+import { take, takeUntil, tap } from 'rxjs/operators';
 import { GameQuestion } from 'src/app/shared/models/game-question.model';
 import { setCorrectAnswers, setCurrentQuestion, setLives } from '../../actions/game.actions';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { GameOverDialogComponent } from '../game-over-dialog/game-over-dialog.component';
 import { TrackByService } from '../../../core/services/trackby.service';
 import { fadeInOut } from 'src/app/shared/animations';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-dashboard',
   templateUrl: './game-dashboard.component.html',
   styleUrls: ['./game-dashboard.component.scss'],
-  animations: [fadeInOut]
+  animations: [fadeInOut],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class GameDashboardComponent implements OnInit {
+  faCheckCircle = faCheckCircle;
   currIndex: number = 0;
   correctAnswers: number = 0;
   livesLeft: number;
-  answersArray: any = [];
+  answersMatrix: any = [];
   currentQuestion: number;
   ref: DynamicDialogRef;
   clickToggle: boolean = false;
   gameIsRunning: boolean = true;
+  prepareNextQuestionMsg: string = "";
 
-  questions$: Observable<GameQuestion[]> = this.store$.pipe(
-    select('game', 'questions'),
-    tap(questionsArray => {
-
-      // assign all the answers to matrix of answers and shuffle every array of answers in the matrix
-      if (questionsArray['0']) {
-        this.assignAnswersToMatrix(questionsArray);
-      }
-
-      // check later-----------------------------------------------------------------
-      this.answersArray.pop();
-    })
-  )
+  nextQuestionTimer = timer(3000);
+  destroy$ = new Subject();
+  startQuestionCheckingProcess: boolean = false; // for disabling the user actions while waiting for next question
+  questions$: Observable<GameQuestion[]>;
 
   constructor(private store$: Store<any>, public dialogService: DialogService, public trackbyService: TrackByService) { }
 
   ngOnInit(): void {
-    this.store$.pipe(take(1), select('game', 'currentQuestion')
+    this.store$.pipe(select('game', 'currentQuestion')
     ).subscribe(result => {
       this.currentQuestion = result;
     })
-    this.store$.pipe(take(1), select('game', 'lives')).subscribe(result => {
+
+    this.store$.pipe(select('game', 'lives')).subscribe(result => {
       this.livesLeft = result;
     })
+
+    this.questions$ = this.store$.pipe(
+      select('game', 'questions'),
+      tap(questionsArray => {
+        // assign all the answers to matrix of answers and shuffle every array of answers in the matrix
+        this.assignAnswersToMatrix(questionsArray);
+      })
+    )
+  }
+
+  updateAnswer(isCorrect, timeIsUp, skipQuestion) {
+
+    // if user skipped a question pass him immediately to the next question
+    if (!skipQuestion) {
+      // disable user clicking untill passing to next question
+      this.startQuestionCheckingProcess = true;
+
+      // show answer message for 3 seconds
+      this.runQuestionTimer();
+
+      if (isCorrect) {
+        this.correctAnswers++;
+        this.prepareNextQuestionMsg = "GOOD JOB!!! Prepare for the next question..."
+      } else {
+        this.livesLeft--;
+        this.store$.dispatch(setLives({ lives: this.livesLeft }));
+        this.prepareNextQuestionMsg = timeIsUp ? "TIMES UP :( Prepare for the next question..." : "WRONG!!! Prepare for the next question..."
+      }
+    } else {
+      this.livesLeft--;
+      this.currentQuestion++;
+      this.currIndex++;
+      this.store$.dispatch(setLives({ lives: this.livesLeft }));
+    }
+
+    this.store$.dispatch(setCorrectAnswers({ correctAnswers: this.correctAnswers }));
+    this.store$.dispatch(setCurrentQuestion({ currentQuestion: this.currentQuestion }));
+
+    // if it's the end of the game go to leader board 
+    if (this.currIndex === this.answersMatrix.length - 1 || this.livesLeft === 0) {
+      this.finishTheGame();
+    }
   }
 
   assignAnswersToMatrix(questionsArray) {
@@ -60,34 +96,27 @@ export class GameDashboardComponent implements OnInit {
       tempArray = tempArray.concat(question['incorrect_answers']);
       tempArray.push(question['correct_answer']);
       tempArray = this.shuffleAnswers(tempArray);
-      this.answersArray.push(tempArray);
+      this.answersMatrix.push(tempArray);
       tempArray = [];
     }
   }
 
-  updateAnswer(isCorrect) {
-    this.currentQuestion++
-    this.currIndex++;
+  runQuestionTimer() {
+    this.nextQuestionTimer.pipe(takeUntil(this.destroy$)).subscribe(val => {
+      this.prepareNextQuestionMsg = ""
+      this.currentQuestion++
+      this.currIndex++;
+      this.startQuestionCheckingProcess = false;
+    })
+  }
 
-    if (isCorrect) {
-      this.correctAnswers++;
-    } else {
-      this.livesLeft--;
-      this.store$.dispatch(setLives({ lives: this.livesLeft }));
-    }
-
-    this.store$.dispatch(setCorrectAnswers({ correctAnswers: this.correctAnswers }));
-    this.store$.dispatch(setCurrentQuestion({ currentQuestion: this.currentQuestion }));
-
-    // in the end of the game route to leader board
-    if (this.currIndex === this.answersArray.length || this.livesLeft === 0) {
-      this.gameIsRunning = false;
-      this.ref = this.dialogService.open(GameOverDialogComponent, {
-        width: '100%',
-        height: '100%',
-        closable: false
-      });
-    }
+  finishTheGame() {
+    this.gameIsRunning = false;
+    this.ref = this.dialogService.open(GameOverDialogComponent, {
+      width: '100%',
+      height: '100%',
+      closable: false
+    });
   }
 
   shuffleAnswers(array) {
@@ -104,5 +133,15 @@ export class GameDashboardComponent implements OnInit {
     }
 
     return array;
+  }
+
+  addAnswerBorder(isCorrect) {
+    if (this.startQuestionCheckingProcess && isCorrect) {
+      return 'add-green-border';
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
   }
 }

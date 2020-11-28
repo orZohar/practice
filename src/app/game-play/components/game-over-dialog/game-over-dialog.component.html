@@ -1,17 +1,19 @@
-<div class="container">
-    <div class="gameover">
-        <p> GAME OVER </p>
-        
+<div *ngIf="visible" [@slideInOut]>
+    <div class="container">
+        <div class="gameover">
+            <p> GAME OVER </p>
+
+        </div>
     </div>
-</div>
 
-<div class="game-results">
-    <h1 style="font-size:3rem">YOU ANSWERED CORRECTLY ON:</h1>
-    <h1 style="font-size:5rem">{{correctAnswers}} OUT OF 12 QUESTIONS</h1>
-</div>
+    <div class="game-results">
+        <h1 style="font-size:3rem">YOU ANSWERED CORRECTLY ON:</h1>
+        <h1 style="font-size:5rem">{{correctAnswers}} OUT OF 12 QUESTIONS</h1>
+    </div>
 
-<div class="footer">
-    <h1 style="color: white;">Enter Your Name</h1>
-    <input type="text" name="playerName" [(ngModel)]="playerName">
-    <button class="reg-btn" (click)="addToLeaderBoard()">Save</button>
+    <div class="footer">
+        <h1 style="color: white;">Enter Your Name</h1>
+        <input type="text" name="playerName" [(ngModel)]="playerName">
+        <button class="reg-btn" (click)="addToLeaderBoard()">Save</button>
+    </div>
 </div>
